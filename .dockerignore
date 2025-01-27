@@ -1,0 +1,46 @@
+# Exclude node_modules (dependencies will be installed fresh in the container)
+node_modules
+
+# Logs
+*.log
+*.log.*
+
+
+# Local environment files
+.env
+.env.*
+
+
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Configuration files not needed in the image
+*.config.mjs
+eslint.config.mjs
+
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore Docker-related files that are handled externally
+docker-compose.yml
+Dockerfile
+
+# Editor/project files
+.idea
+.vscode
+*.sublime-workspace
+*.sublime-project
+
+# Documentation
+README.md
+
+
+# TypeScript config files (only compiled files are needed)
+tsconfig.json
+tsconfig.build.json
