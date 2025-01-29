@@ -1,87 +1,11 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["views"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-model customer {
-  customer_id      Int                @id @default(autoincrement())
-  store_id         Int
-  first_name       String             @db.VarChar(45)
-  last_name        String             @db.VarChar(45)
-  email            String?            @db.VarChar(50)
-  address_id       Int
-  activebool       Boolean            @default(true)
-  create_date      DateTime           @default(dbgenerated("('now'::text)::date")) @db.Date
-  last_update      DateTime?          @default(now()) @db.Timestamp(6)
-  active           Int?
-  address          address            @relation(fields: [address_id], references: [address_id])
-  store            store              @relation(fields: [store_id], references: [store_id])
-  payment          payment[]
-  payment_p2007_01 payment_p2007_01[] @ignore
-  payment_p2007_02 payment_p2007_02[] @ignore
-  payment_p2007_03 payment_p2007_03[] @ignore
-  payment_p2007_04 payment_p2007_04[] @ignore
-  payment_p2007_05 payment_p2007_05[] @ignore
-  payment_p2007_06 payment_p2007_06[] @ignore
-  rental           rental[]
-
-  @@index([last_name], map: "idx_last_name")
-  @@index([address_id], map: "idx_fk_address_id")
-  @@index([store_id], map: "idx_fk_store_id")
-}
-
-model film {
-  film_id                                      Int                     @id @default(autoincrement())
-  title                                        String                  @db.VarChar(255)
-  description                                  String?
-  release_year                                 Int?
-  language_id                                  Int
-  original_language_id                         Int?
-  rental_duration                              Int                     @default(3) @db.SmallInt
-  rental_rate                                  Decimal                 @default(4.99) @db.Decimal(4, 2)
-  length                                       Int?                    @db.SmallInt
-  replacement_cost                             Decimal                 @default(19.99) @db.Decimal(5, 2)
-  rating                                       mpaa_rating?            @default(G)
-  last_update                                  DateTime                @default(now()) @db.Timestamp(6)
-  special_features                             String[]
-  fulltext                                     Unsupported("tsvector")
-  language_film_language_idTolanguage          language                @relation("film_language_idTolanguage", fields: [language_id], references: [language_id])
-  language_film_original_language_idTolanguage language?               @relation("film_original_language_idTolanguage", fields: [original_language_id], references: [language_id], onDelete: Restrict)
-  film_actor                                   film_actor[]
-  film_category                                film_category[]
-  inventory                                    inventory[]
-
-  @@index([title], map: "idx_title")
-  @@index([fulltext], type: Gist)
-  @@index([language_id], map: "idx_fk_language_id")
-  @@index([original_language_id], map: "idx_fk_original_language_id")
-}
-
-model rental {
-  rental_id        Int                @id @default(autoincrement())
-  rental_date      DateTime           @db.Timestamp(6)
-  inventory_id     Int
-  customer_id      Int
-  return_date      DateTime?          @db.Timestamp(6)
-  staff_id         Int
-  last_update      DateTime           @default(now()) @db.Timestamp(6)
-  payment          payment[]
-  payment_p2007_01 payment_p2007_01[] @ignore
-  payment_p2007_02 payment_p2007_02[] @ignore
-  payment_p2007_03 payment_p2007_03[] @ignore
-  payment_p2007_04 payment_p2007_04[] @ignore
-  payment_p2007_05 payment_p2007_05[] @ignore
-  payment_p2007_06 payment_p2007_06[] @ignore
-  customer         customer           @relation(fields: [customer_id], references: [customer_id])
-  inventory        inventory          @relation(fields: [inventory_id], references: [inventory_id])
-  staff            staff              @relation(fields: [staff_id], references: [staff_id])
-
-  @@unique([rental_date, inventory_id, customer_id], map: "idx_unq_rental_rental_date_inventory_id_customer_id")
-  @@index([inventory_id], map: "idx_fk_inventory_id")
 }
 
 model actor {
@@ -134,6 +58,60 @@ model country {
   country     String   @db.VarChar(50)
   last_update DateTime @default(now()) @db.Timestamp(6)
   city        city[]
+}
+
+model customer {
+  customer_id      Int                @id @default(autoincrement())
+  store_id         Int
+  first_name       String             @db.VarChar(45)
+  last_name        String             @db.VarChar(45)
+  email            String?            @db.VarChar(50)
+  address_id       Int
+  activebool       Boolean            @default(true)
+  create_date      DateTime           @default(dbgenerated("('now'::text)::date")) @db.Date
+  last_update      DateTime?          @default(now()) @db.Timestamp(6)
+  active           Int?
+  address          address            @relation(fields: [address_id], references: [address_id])
+  store            store              @relation(fields: [store_id], references: [store_id])
+  payment          payment[]
+  payment_p2007_01 payment_p2007_01[] @ignore
+  payment_p2007_02 payment_p2007_02[] @ignore
+  payment_p2007_03 payment_p2007_03[] @ignore
+  payment_p2007_04 payment_p2007_04[] @ignore
+  payment_p2007_05 payment_p2007_05[] @ignore
+  payment_p2007_06 payment_p2007_06[] @ignore
+  rental           rental[]
+
+  @@index([address_id], map: "idx_fk_address_id")
+  @@index([store_id], map: "idx_fk_store_id")
+  @@index([last_name], map: "idx_last_name")
+}
+
+model film {
+  film_id                                      Int                     @id @default(autoincrement())
+  title                                        String                  @db.VarChar(255)
+  description                                  String?
+  release_year                                 Int?
+  language_id                                  Int
+  original_language_id                         Int?
+  rental_duration                              Int                     @default(3) @db.SmallInt
+  rental_rate                                  Decimal                 @default(4.99) @db.Decimal(4, 2)
+  length                                       Int?                    @db.SmallInt
+  replacement_cost                             Decimal                 @default(19.99) @db.Decimal(5, 2)
+  rating                                       mpaa_rating?            @default(G)
+  last_update                                  DateTime                @default(now()) @db.Timestamp(6)
+  special_features                             String[]
+  fulltext                                     Unsupported("tsvector")
+  language_film_language_idTolanguage          language                @relation("film_language_idTolanguage", fields: [language_id], references: [language_id])
+  language_film_original_language_idTolanguage language?               @relation("film_original_language_idTolanguage", fields: [original_language_id], references: [language_id], onDelete: Restrict)
+  film_actor                                   film_actor[]
+  film_category                                film_category[]
+  inventory                                    inventory[]
+
+  @@index([fulltext], type: Gist)
+  @@index([language_id], map: "idx_fk_language_id")
+  @@index([original_language_id], map: "idx_fk_original_language_id")
+  @@index([title], map: "idx_title")
 }
 
 model film_actor {
@@ -301,6 +279,29 @@ model payment_p2007_06 {
   @@ignore
 }
 
+model rental {
+  rental_id        Int                @id @default(autoincrement())
+  rental_date      DateTime           @db.Timestamp(6)
+  inventory_id     Int
+  customer_id      Int
+  return_date      DateTime?          @db.Timestamp(6)
+  staff_id         Int
+  last_update      DateTime           @default(now()) @db.Timestamp(6)
+  payment          payment[]
+  payment_p2007_01 payment_p2007_01[] @ignore
+  payment_p2007_02 payment_p2007_02[] @ignore
+  payment_p2007_03 payment_p2007_03[] @ignore
+  payment_p2007_04 payment_p2007_04[] @ignore
+  payment_p2007_05 payment_p2007_05[] @ignore
+  payment_p2007_06 payment_p2007_06[] @ignore
+  customer         customer           @relation(fields: [customer_id], references: [customer_id])
+  inventory        inventory          @relation(fields: [inventory_id], references: [inventory_id])
+  staff            staff              @relation(fields: [staff_id], references: [staff_id])
+
+  @@unique([rental_date, inventory_id, customer_id], map: "idx_unq_rental_rental_date_inventory_id_customer_id")
+  @@index([inventory_id], map: "idx_fk_inventory_id")
+}
+
 model staff {
   staff_id                            Int                @id @default(autoincrement())
   first_name                          String             @db.VarChar(45)
@@ -336,6 +337,90 @@ model store {
   staff_staff_store_idTostore         staff[]     @relation("staff_store_idTostore")
   address                             address     @relation(fields: [address_id], references: [address_id])
   staff_store_manager_staff_idTostaff staff       @relation("store_manager_staff_idTostaff", fields: [manager_staff_id], references: [staff_id])
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view actor_info {
+  actor_id   Int?
+  first_name String? @db.VarChar(45)
+  last_name  String? @db.VarChar(45)
+  film_info  String?
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view customer_list {
+  id       Int?
+  name     String?
+  address  String? @db.VarChar(50)
+  zip_code String? @map("zip code") @db.VarChar(10)
+  phone    String? @db.VarChar(20)
+  city     String? @db.VarChar(50)
+  country  String? @db.VarChar(50)
+  notes    String?
+  sid      Int?
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view film_list {
+  fid         Int?
+  title       String?      @db.VarChar(255)
+  description String?
+  category    String?      @db.VarChar(25)
+  price       Decimal?     @db.Decimal(4, 2)
+  length      Int?         @db.SmallInt
+  rating      mpaa_rating?
+  actors      String?
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view nicer_but_slower_film_list {
+  fid         Int?
+  title       String?      @db.VarChar(255)
+  description String?
+  category    String?      @db.VarChar(25)
+  price       Decimal?     @db.Decimal(4, 2)
+  length      Int?         @db.SmallInt
+  rating      mpaa_rating?
+  actors      String?
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view sales_by_film_category {
+  category    String?  @db.VarChar(25)
+  total_sales Decimal? @db.Decimal
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view sales_by_store {
+  store       String?
+  manager     String?
+  total_sales Decimal? @db.Decimal
+
+  @@ignore
+}
+
+/// The underlying view does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+view staff_list {
+  id       Int?
+  name     String?
+  address  String? @db.VarChar(50)
+  zip_code String? @map("zip code") @db.VarChar(10)
+  phone    String? @db.VarChar(20)
+  city     String? @db.VarChar(50)
+  country  String? @db.VarChar(50)
+  sid      Int?
+
+  @@ignore
 }
 
 enum mpaa_rating {
