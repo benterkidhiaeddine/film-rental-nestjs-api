@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/usr/src/app
     env_file:
-    - .env
+      - .env
     # Run a command against the development stage of the image
     command: npm run start:dev
     ports:

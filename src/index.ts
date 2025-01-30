@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 async function main() {
   // ... you will write your Prisma Client queries here
 
-  const films = await prisma.film.findMany({ take: 10 });
-  console.log(films);
+  const clients = await prisma.customer.findMany({ take: 10 });
+  console.log(clients);
 }
 
 main()
