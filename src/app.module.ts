@@ -6,10 +6,18 @@ import { PrismaModule } from './prisma/prisma.module';
 import { RentalController } from './rental/rental.controller';
 import { RentalService } from './rental/rental.service';
 import { RentalRepository } from './rental/rental.repository';
+import { UniqueRentalPipe } from './shared/validation/unique-rental-pipe';
+import { RentalPeriodConstraint } from './shared/validation/rental-period-constraint';
 
 @Module({
   imports: [RentalModule, PrismaModule],
   controllers: [AppController, RentalController],
-  providers: [AppService, RentalService, RentalRepository],
+  providers: [
+    AppService,
+    RentalService,
+    RentalRepository,
+    UniqueRentalPipe,
+    RentalPeriodConstraint,
+  ],
 })
 export class AppModule {}
