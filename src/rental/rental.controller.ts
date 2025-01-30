@@ -16,7 +16,7 @@ import { UpdateRentalDto } from './dto/update-rental.dto';
 import { RentalRepository } from './rental.repository';
 import { UniqueRentalPipe } from 'src/shared/validation/unique-rental-pipe';
 
-@Controller('rental')
+@Controller('rentals')
 export class RentalController {
   constructor(private readonly rentalService: RentalService) {}
 
