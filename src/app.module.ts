@@ -12,9 +12,17 @@ import { CustomerModule } from './customer/customer.module';
 import { CustomerRepository } from './customer/customer.repository';
 import { CustomerController } from './customer/customer.controller';
 import { CustomerService } from './customer/customer.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksModule } from 'tasks/tasks.module';
 
 @Module({
-  imports: [PrismaModule, RentalModule, CustomerModule],
+  imports: [
+    PrismaModule,
+    RentalModule,
+    CustomerModule,
+    TasksModule,
+    ScheduleModule.forRoot(),
+  ],
   controllers: [AppController, RentalController, CustomerController],
   providers: [
     // Repositories
