@@ -19,4 +19,12 @@ export class TasksService {
   handleTimeout() {
     this.logger.debug('Called once after 5 seconds');
   }
+
+  // tasks that runs on 12 Hour each day
+  // Query all rentals and see if today in their time zone = return date in their time zone - 5 days
+  // if so send a notification which is a log in this case
+
+  // task that runs on 12 hour each day
+  // Query all rentals and see if today in their time zone = return date in their time zone - 3 days
+  // if so send a notification which is a log in this case
 }

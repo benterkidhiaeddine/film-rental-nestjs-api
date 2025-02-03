@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsEmail,
   IsBoolean,
+  IsTimeZone,
 } from 'class-validator';
 
 export class CreateCustomerDto {
@@ -25,4 +26,7 @@ export class CreateCustomerDto {
 
   @IsBoolean()
   activebool: boolean;
+
+  @IsTimeZone()
+  timezone: string;
 }

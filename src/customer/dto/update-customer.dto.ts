@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsEmail,
   IsBoolean,
+  IsTimeZone,
 } from 'class-validator';
 
 import { PartialType } from '@nestjs/mapped-types';
@@ -33,4 +34,8 @@ export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
   @IsOptional()
   @IsBoolean()
   activebool: boolean;
+
+  @IsOptional()
+  @IsTimeZone()
+  timezone: string;
 }

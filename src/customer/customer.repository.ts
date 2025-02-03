@@ -43,6 +43,7 @@ export class CustomerRepository {
         last_name: data.last_name,
         email: data.email,
         activebool: data.activebool,
+        timezone: data.timezone,
       },
     });
   }
@@ -61,6 +62,7 @@ export class CustomerRepository {
         last_name: data.last_name,
         email: data.email,
         activebool: data.activebool,
+        timezone: data.timezone,
       },
     });
   }
