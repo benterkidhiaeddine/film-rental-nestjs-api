@@ -8,14 +8,23 @@ import { RentalService } from './rental/rental.service';
 import { RentalRepository } from './rental/rental.repository';
 import { UniqueRentalPipe } from './shared/validation/unique-rental-pipe';
 import { RentalPeriodConstraint } from './shared/validation/rental-period-constraint';
+import { CustomerModule } from './customer/customer.module';
+import { CustomerRepository } from './customer/customer.repository';
+import { CustomerController } from './customer/customer.controller';
+import { CustomerService } from './customer/customer.service';
 
 @Module({
-  imports: [RentalModule, PrismaModule],
-  controllers: [AppController, RentalController],
+  imports: [PrismaModule, RentalModule, CustomerModule],
+  controllers: [AppController, RentalController, CustomerController],
   providers: [
+    // Repositories
+    CustomerRepository,
+    RentalRepository,
+    // Services
     AppService,
     RentalService,
-    RentalRepository,
+    CustomerService,
+    // Validators
     UniqueRentalPipe,
     RentalPeriodConstraint,
   ],
