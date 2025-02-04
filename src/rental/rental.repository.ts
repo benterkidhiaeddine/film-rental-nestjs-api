@@ -13,9 +13,28 @@ export class RentalRepository {
     cursor?: Prisma.rentalWhereUniqueInput;
     where?: Prisma.rentalWhereInput;
     orderBy?: Prisma.rentalOrderByWithRelationInput;
-  }): Promise<rental[]> {
+  }): Promise<
+    (rental & {
+      customer: { timezone: string; first_name: string; last_name: string };
+    })[]
+  > {
     const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.rental.findMany({ skip, take, cursor, where, orderBy });
+    return this.prisma.rental.findMany({
+      skip,
+      take,
+      cursor,
+      where,
+      orderBy,
+      include: {
+        customer: {
+          select: {
+            timezone: true, // Select the timezone field from the related customer
+            first_name: true,
+            last_name: true,
+          },
+        },
+      },
+    });
   }
 
   /** Create a Rental */
