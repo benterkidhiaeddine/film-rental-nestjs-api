@@ -23,7 +23,7 @@ export class RentalPeriodConstraint implements ValidatorConstraintInterface {
     // Check if the rental period is between 1 and 3 weeks (7 to 21 days)
     const rentalPeriodInDays =
       (returnDate.getTime() - rentalDate.getTime()) / (1000 * 3600 * 24); // Convert ms to days
-    if (rentalPeriodInDays < 7 || rentalPeriodInDays > 21) {
+    if (rentalPeriodInDays < 1 || rentalPeriodInDays > 21) {
       return false; // Invalid period
     }
 

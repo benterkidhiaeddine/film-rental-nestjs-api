@@ -13,7 +13,7 @@ import {
 import { RentalService } from './rental.service';
 import { CreateRentalDto } from './dto/create-rental.dto';
 import { UpdateRentalDto } from './dto/update-rental.dto';
-import { RentalRepository } from './rental.repository';
+import { RentalRepository } from '../rental/rental.repository';
 import { UniqueRentalPipe } from 'src/shared/validation/unique-rental-pipe';
 
 @Controller('rentals')

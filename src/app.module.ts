@@ -13,7 +13,9 @@ import { CustomerRepository } from './customer/customer.repository';
 import { CustomerController } from './customer/customer.controller';
 import { CustomerService } from './customer/customer.service';
 import { ScheduleModule } from '@nestjs/schedule';
-import { TasksModule } from 'tasks/tasks.module';
+import { TasksModule } from 'src/tasks/tasks.module';
+import { TasksController } from 'src/tasks/tasks.controller';
+import { TasksService } from 'src/tasks/tasks.service';
 
 @Module({
   imports: [
@@ -23,7 +25,12 @@ import { TasksModule } from 'tasks/tasks.module';
     TasksModule,
     ScheduleModule.forRoot(),
   ],
-  controllers: [AppController, RentalController, CustomerController],
+  controllers: [
+    AppController,
+    RentalController,
+    CustomerController,
+    TasksController,
+  ],
   providers: [
     // Repositories
     CustomerRepository,
