@@ -8,7 +8,7 @@ export class TasksService {
   private readonly logger = new Logger(TasksService.name);
 
   // Task that runs every 12 hours
-  @Cron('1 * * * * *') // Runs every 12 hours
+  @Cron('0 0 */12 * * *') // Runs every 12 hours
   async checkRentalReturnDateFiveDaysBefore() {
     const rentals = await this.rentalRepository.getRental({});
     rentals.forEach((rental) => {
