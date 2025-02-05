@@ -28,7 +28,7 @@ export class TasksController {
   }
 
   // Start a task
-  @Post(':name/run')
+  @Post(':name/start')
   startTask(@Param('name') name: string) {
     return this.tasksService.startTask(name);
   }
@@ -37,5 +37,11 @@ export class TasksController {
   @Post(':name/stop')
   stopTask(@Param('name') name: string) {
     return this.tasksService.stopTask(name);
+  }
+
+  // Manually run a task instantly
+  @Post(':name/insta-run')
+  manuallyStartTask(@Param('name') name: string) {
+    return this.tasksService.manuallyRunTask(name);
   }
 }

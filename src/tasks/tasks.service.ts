@@ -5,9 +5,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Cron, Interval, SchedulerRegistry, Timeout } from '@nestjs/schedule';
+import * as cron from 'cron';
 import { RentalRepository } from '../rental/rental.repository';
 import * as moment from 'moment-timezone';
 import { DateTime } from 'luxon';
+import { TasksModule } from './tasks.module';
 // Interface for the cron tasks
 export interface SerializedCronJob {
   name: string; // Unique name of the job
@@ -153,6 +155,25 @@ export class TasksService {
 
     task.start();
     this.logger.log(`Task "${name}" has been started.`);
+    return {
+      name,
+      running: task.running,
+      lastExecution: task.lastExecution
+        ? task.lastExecution.toISOString()
+        : null,
+      cronExpression: task.cronTime.source,
+      runOnce: task.runOnce,
+      waitForCompletion: task.waitForCompletion,
+    };
+  }
+
+  async manuallyRunTask(name: string): Promise<SerializedCronJob> {
+    const task = this.scheduelerRegistery.getCronJob(name);
+    if (!task) {
+      throw new NotFoundException(`Task with name "${name}" not found.`);
+    }
+    await task.fireOnTick();
+
     return {
       name,
       running: task.running,
