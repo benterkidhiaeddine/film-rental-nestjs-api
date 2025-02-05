@@ -18,10 +18,6 @@ echo "Copying SQL files to container..."
 docker cp "./db/$SCHEMA_FILE" "$CONTAINER_NAME:/tmp/$SCHEMA_FILE"
 docker cp "./db/$DATA_FILE" "$CONTAINER_NAME:/tmp/$DATA_FILE"
 
-# Load the schema file
-echo "Loading schema..."
-docker exec -i "$CONTAINER_NAME" psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "/tmp/$SCHEMA_FILE"
-
 # Load the data file
 echo "Loading data..."
 docker exec -i "$CONTAINER_NAME" psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "/tmp/$DATA_FILE"

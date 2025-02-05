@@ -1,5 +1,6 @@
 services:
   api:
+    container_name: film-rental-api-1
     depends_on:
       - postgres
     build:
@@ -17,6 +18,7 @@ services:
       - 3000:3000
 
   postgres:
+    container_name: film-rental-postgres-1
     image: postgres
     restart: always
     environment:

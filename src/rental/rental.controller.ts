@@ -5,23 +5,21 @@ import {
   Body,
   Patch,
   Param,
-  Delete,
   ParseIntPipe,
-  BadRequestException,
   UsePipes,
 } from '@nestjs/common';
 import { RentalService } from './rental.service';
 import { CreateRentalDto } from './dto/create-rental.dto';
 import { UpdateRentalDto } from './dto/update-rental.dto';
-import { RentalRepository } from '../rental/rental.repository';
 import { UniqueRentalPipe } from 'src/shared/validation/unique-rental-pipe';
+import { ValidateRentalPipe } from 'src/shared/validation/rental-creation-validation-pipe';
 
 @Controller('rentals')
 export class RentalController {
   constructor(private readonly rentalService: RentalService) {}
 
   @Post()
-  @UsePipes(UniqueRentalPipe)
+  @UsePipes(ValidateRentalPipe, UniqueRentalPipe)
   create(@Body() createRentalDto: CreateRentalDto) {
     return this.rentalService.create(createRentalDto);
   }
