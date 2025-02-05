@@ -12,7 +12,7 @@ export class ValidateRentalPipe implements PipeTransform {
   constructor(private readonly prisma: PrismaService) {}
 
   async transform(value: CreateRentalDto, metadata: ArgumentMetadata) {
-    const { customer_id, inventory_id } = value;
+    const { customer_id, inventory_id, staff_id } = value;
 
     // Validate if the customer exists
     const customerExists = await this.prisma.customer.findUnique({
@@ -33,6 +33,17 @@ export class ValidateRentalPipe implements PipeTransform {
     if (!inventoryExists) {
       throw new BadRequestException(
         `Inventory item with ID ${inventory_id} does not exist.`,
+      );
+    }
+
+    // Validate if the inventory item exists
+    const staffExists = await this.prisma.staff.findUnique({
+      where: { staff_id },
+    });
+
+    if (!staffExists) {
+      throw new BadRequestException(
+        `staff item with ID ${staff_id} does not exist.`,
       );
     }
 

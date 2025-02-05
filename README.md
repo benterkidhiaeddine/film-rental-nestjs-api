@@ -1,5 +1,7 @@
 ## Description
 
+This is A solution for a case study of creating an api around A rental Film Database using Nest.js
+
 ## Project setup
 
 1. Create a .env file in the root of your project containing the following env Variables
@@ -28,3 +30,7 @@ docker exec -it film-rental-api-1 npx prisma migrate dev
 ```
 ./load_data.sh
 ```
+
+## Api Docuementation
+
+- For the documentation of the API there is a postman file including the endpoints.
